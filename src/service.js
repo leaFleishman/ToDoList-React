@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // הגדרת ברירות מחדל
-axios.defaults.baseURL = "http://localhost:5213";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL || "http://localhost:5213";
 
 const TOKEN_KEY = 'todo_jwt';
 
