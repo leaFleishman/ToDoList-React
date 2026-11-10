@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import service from './service.js';
 import AuthPage from './AuthPage.js';
+import './App.css';
 
 function TodoPage() {
   const [newTodo, setNewTodo] = useState("");
