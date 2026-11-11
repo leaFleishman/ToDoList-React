@@ -392,6 +392,21 @@
   transform: translateY(-50%) scale(0.78);
 }
 
+/* Browser autofill (and its hover preview) does not clear :placeholder-shown,
+   so float the label for autofilled fields too. Kept as separate rules so an
+   unsupported selector does not disable the others. */
+.auth-field input:-webkit-autofill + label {
+  color: var(--gold);
+  top: 17px;
+  transform: translateY(-50%) scale(0.78);
+}
+
+.auth-field input:autofill + label {
+  color: var(--gold);
+  top: 17px;
+  transform: translateY(-50%) scale(0.78);
+}
+
 .auth-icon {
   color: var(--muted);
   height: 20px;
