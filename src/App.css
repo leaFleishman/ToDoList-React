@@ -1,42 +1,106 @@
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&family=IBM+Plex+Sans+Hebrew:wght@200;300;400;500;600&display=swap');
+
+/* ============================================================
+   Luxury theme — charcoal, champagne gold, soft glass
+   ============================================================ */
 
 :root {
-  --ink: #172a3a;
-  --ink-soft: #34465a;
-  --muted: #64748b;
-  --faint: #94a3b8;
-  --line: #dce4ec;
-  --surface: #ffffffed;
-  --accent: #117d70;
-  --accent-2: #159c83;
-  --accent-soft: #eefaf7;
-  --danger: #a52c35;
-  --danger-soft: #fff1f1;
-  --shadow-lg: 0 24px 70px #24364b1a, 0 3px 12px #24364b0a;
-  --shadow-sm: 0 2px 10px #24364b0d, 0 1px 2px #24364b0a;
+  --bg: #0b0c10;
+  --bg-2: #12141a;
+  --surface: rgba(24, 26, 33, 0.72);
+  --surface-strong: rgba(30, 32, 40, 0.88);
+  --surface-hover: rgba(34, 36, 45, 0.9);
+
+  --text: #f2ece0;
+  --text-soft: #cfc7b8;
+  --muted: #8f897e;
+  --faint: #5f5b54;
+
+  --gold: #c9a96e;
+  --gold-light: #ecd9ae;
+  --gold-deep: #9b7a42;
+  --gold-glow: rgba(201, 169, 110, 0.28);
+  --line: rgba(201, 169, 110, 0.16);
+  --line-strong: rgba(201, 169, 110, 0.38);
+
+  --danger: #e08a85;
+  --danger-soft: rgba(224, 138, 133, 0.1);
+
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.55), 0 2px 0 rgba(255, 255, 255, 0.03) inset;
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  --font-display: 'Bellefair', Georgia, serif;
+  --font-serif-he: 'IBM Plex Sans Hebrew', 'Segoe UI', Arial, sans-serif;
+  --font-body: 'IBM Plex Sans Hebrew', 'Segoe UI', Arial, sans-serif;
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  background: var(--bg);
+}
+
 body {
   background:
-    radial-gradient(ellipse at 12% 15%, #c8f2e7 0, transparent 34%),
-    radial-gradient(ellipse at 88% 85%, #d9e8ff 0, transparent 36%),
-    #f5f8fc;
+    radial-gradient(ellipse 60% 50% at 50% -10%, rgba(201, 169, 110, 0.12), transparent 70%),
+    linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 60%);
   background-attachment: fixed;
-  color: var(--ink);
-  font-family: 'Heebo', 'Segoe UI', 'Assistant', Arial, sans-serif;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
   margin: 0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Slow drifting golden light behind everything */
+body::before,
+body::after {
+  border-radius: 50%;
+  content: '';
+  filter: blur(80px);
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+}
+
+body::before {
+  animation: drift-a 26s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.16), transparent 65%);
+  height: 520px;
+  right: -160px;
+  top: 8%;
+  width: 520px;
+}
+
+body::after {
+  animation: drift-b 32s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(120, 100, 160, 0.12), transparent 65%);
+  bottom: -120px;
+  height: 600px;
+  left: -200px;
+  width: 600px;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }
 
 button,
 input {
   font-family: inherit;
+}
+
+::selection {
+  background: rgba(201, 169, 110, 0.35);
+  color: #fff;
 }
 
 /* ---------- Todo page ---------- */
@@ -45,108 +109,150 @@ input {
   direction: rtl;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 28px;
   margin: 0 auto;
-  max-width: 620px;
-  padding: 48px 18px 64px;
+  max-width: 640px;
+  padding: 64px 20px 80px;
 }
 
 .todoapp .header {
-  animation: card-enter 500ms var(--ease) both;
+  animation: card-enter 900ms var(--ease) both;
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(18px) saturate(120%);
   background: var(--surface);
-  border: 1px solid #fff;
-  border-radius: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
   box-shadow: var(--shadow-lg);
-  padding: 30px 32px 32px;
+  overflow: hidden;
+  padding: 44px 40px 40px;
   position: relative;
 }
 
+/* Gold hairline at the top that draws itself in */
 .todoapp .header::before {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  border-radius: 0 0 4px 4px;
+  animation: line-draw 1400ms 300ms var(--ease) both;
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), transparent);
   content: '';
-  height: 3px;
-  left: 50%;
+  height: 1px;
+  left: 10%;
   position: absolute;
+  right: 10%;
   top: 0;
-  transform: translateX(-50%);
-  width: 56px;
+  transform-origin: center;
+}
+
+/* Soft sheen that sweeps the card once */
+.todoapp .header::after {
+  animation: sheen 2.4s 700ms var(--ease-soft) both;
+  background: linear-gradient(105deg, transparent 40%, rgba(236, 217, 174, 0.07) 50%, transparent 60%);
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-100%);
 }
 
 .todoapp .header h1 {
-  background: linear-gradient(110deg, var(--ink) 20%, var(--accent) 100%);
+  animation: title-enter 1200ms 150ms var(--ease) both, shimmer 7s 1.5s linear infinite;
+  background: linear-gradient(100deg, var(--gold-deep) 0%, var(--gold-light) 25%, var(--gold) 45%, var(--gold-light) 60%, var(--gold-deep) 100%);
+  background-size: 250% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  font-size: clamp(2.6rem, 9vw, 3.6rem);
-  font-weight: 300;
-  letter-spacing: -0.045em;
-  line-height: 1.15;
-  margin: 18px 0 22px;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 11vw, 4.4rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  margin: 14px 0 10px;
   text-align: center;
 }
 
+/* Small ornament below the title */
+.todoapp .header h1::after {
+  color: var(--gold);
+  content: '\2726';
+  display: block;
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: 0;
+  margin-top: 16px;
+  opacity: 0.7;
+  -webkit-text-fill-color: var(--gold);
+}
+
 .todoapp .header > button {
-  background: #f8fafc;
-  border: 1px solid var(--line);
+  background: transparent;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  color: var(--ink-soft);
+  color: var(--gold-light);
   cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 500;
-  inset-block-start: 18px;
-  inset-inline-end: 18px;
-  padding: 6px 14px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  inset-block-start: 20px;
+  inset-inline-end: 20px;
+  letter-spacing: 0.18em;
+  padding: 7px 16px;
   position: absolute;
-  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  text-transform: uppercase;
+  transition: background-color 400ms var(--ease), border-color 400ms var(--ease), color 400ms var(--ease), transform 300ms var(--ease);
+  z-index: 2;
 }
 
 .todoapp .header > button:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent-2);
-  color: var(--accent);
+  background: rgba(201, 169, 110, 0.12);
+  border-color: var(--gold);
+  color: #fff;
 }
 
 .todoapp .header > button:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
+}
+
+.todoapp .header > button:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.todoapp .header form {
+  margin-top: 22px;
+  position: relative;
+  z-index: 1;
 }
 
 .todoapp .new-todo {
-  background: #f8fafc;
+  background: rgba(10, 11, 14, 0.55);
   border: 1px solid var(--line);
-  border-radius: 14px;
-  color: var(--ink);
-  font-size: 1.05rem;
-  min-height: 56px;
+  border-radius: 16px;
+  color: var(--text);
+  font-family: var(--font-serif-he);
+  font-size: 1.12rem;
+  font-weight: 300;
+  min-height: 60px;
   outline: none;
-  padding: 12px 18px;
-  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  padding: 14px 22px;
+  transition: background-color 500ms var(--ease), border-color 500ms var(--ease), box-shadow 500ms var(--ease);
   width: 100%;
 }
 
 .todoapp .new-todo::placeholder {
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .todoapp .new-todo:hover {
-  border-color: #b8c8d7;
+  border-color: var(--line-strong);
 }
 
 .todoapp .new-todo:focus {
-  background: #fff;
-  border-color: var(--accent-2);
-  box-shadow: 0 0 0 4px #168b781c;
+  background: rgba(10, 11, 14, 0.75);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.1), 0 0 30px rgba(201, 169, 110, 0.12);
 }
 
-.todoapp .header > button:focus-visible {
-  outline: 3px solid #168b7880;
-  outline-offset: 2px;
-}
-
-/* List */
+/* ---------- List ---------- */
 
 .todoapp .main {
-  animation: card-enter 500ms 90ms var(--ease) both;
+  animation: card-enter 900ms 200ms var(--ease) both;
 }
 
 .todo-list {
@@ -156,97 +262,131 @@ input {
 }
 
 .todo-list li {
-  animation: row-enter 380ms var(--ease) both;
-  margin-bottom: 10px;
+  animation: row-enter 700ms var(--ease) both;
+  margin-bottom: 12px;
 }
 
-.todo-list li:nth-child(2) { animation-delay: 40ms; }
-.todo-list li:nth-child(3) { animation-delay: 80ms; }
-.todo-list li:nth-child(4) { animation-delay: 120ms; }
-.todo-list li:nth-child(5) { animation-delay: 160ms; }
-.todo-list li:nth-child(n + 6) { animation-delay: 200ms; }
+.todo-list li:nth-child(1) { animation-delay: 300ms; }
+.todo-list li:nth-child(2) { animation-delay: 370ms; }
+.todo-list li:nth-child(3) { animation-delay: 440ms; }
+.todo-list li:nth-child(4) { animation-delay: 510ms; }
+.todo-list li:nth-child(5) { animation-delay: 580ms; }
+.todo-list li:nth-child(n + 6) { animation-delay: 650ms; }
 
 .todo-list .view {
   align-items: center;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   background: var(--surface);
-  border: 1px solid #fff;
-  border-radius: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
   box-shadow: var(--shadow-sm);
   display: flex;
-  gap: 14px;
-  min-height: 62px;
-  padding: 12px 16px;
-  transition: box-shadow 220ms ease, transform 220ms var(--ease), background-color 220ms ease;
+  gap: 16px;
+  min-height: 66px;
+  overflow: hidden;
+  padding: 14px 20px;
+  position: relative;
+  transition:
+    background-color 500ms var(--ease),
+    border-color 500ms var(--ease),
+    box-shadow 500ms var(--ease),
+    transform 500ms var(--ease);
+}
+
+/* Gold accent bar on the start edge, revealed on hover */
+.todo-list .view::before {
+  background: linear-gradient(180deg, var(--gold-light), var(--gold-deep));
+  content: '';
+  inset-block: 18%;
+  inset-inline-start: 0;
+  position: absolute;
+  transform: scaleY(0);
+  transition: transform 500ms var(--ease);
+  width: 2px;
 }
 
 .todo-list .view:hover {
-  box-shadow: 0 10px 28px #24364b17, 0 2px 6px #24364b0a;
+  background: var(--surface-hover);
+  border-color: var(--line-strong);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(201, 169, 110, 0.05);
   transform: translateY(-2px);
 }
 
+.todo-list .view:hover::before {
+  transform: scaleY(1);
+}
+
 .todo-list label {
-  color: var(--ink);
+  color: var(--text);
   cursor: default;
   flex: 1;
+  font-family: var(--font-serif-he);
   font-size: 1.05rem;
-  line-height: 1.5;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.55;
   overflow-wrap: anywhere;
   text-decoration: line-through transparent;
-  text-decoration-thickness: 1.5px;
-  transition: color 250ms ease, text-decoration-color 250ms ease;
+  text-decoration-thickness: 1px;
+  transition: color 600ms var(--ease), text-decoration-color 600ms var(--ease), opacity 600ms var(--ease);
   unicode-bidi: plaintext;
 }
 
 .todo-list li.completed .view {
-  background: #ffffffa8;
+  background: rgba(18, 20, 25, 0.5);
+  border-color: rgba(201, 169, 110, 0.08);
 }
 
 .todo-list li.completed label {
-  color: var(--faint);
-  text-decoration-color: var(--faint);
+  color: var(--text-soft);
+  opacity: 0.6;
+  text-decoration-color: var(--gold);
 }
 
-/* Custom checkbox */
+/* ---------- Custom checkbox ---------- */
 
 .todo-list .toggle {
   -webkit-appearance: none;
   appearance: none;
-  background-color: #fff;
-  border: 2px solid #c3d0dc;
+  background-color: transparent;
+  border: 1px solid var(--line-strong);
   border-radius: 50%;
   cursor: pointer;
   flex: none;
   height: 26px;
   margin: 0;
   outline: none;
-  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  transition: background-color 400ms var(--ease), border-color 400ms var(--ease), box-shadow 400ms var(--ease);
   width: 26px;
 }
 
 .todo-list .toggle:hover {
-  border-color: var(--accent-2);
+  border-color: var(--gold);
+  box-shadow: 0 0 14px var(--gold-glow);
 }
 
 .todo-list .toggle:focus-visible {
-  box-shadow: 0 0 0 4px #168b7833;
+  box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.2);
 }
 
 .todo-list .toggle:checked {
-  animation: toggle-pop 320ms var(--ease);
+  animation: toggle-pop 500ms var(--ease);
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 72% no-repeat,
-    linear-gradient(135deg, var(--accent), var(--accent-2));
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2314120e' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5.5 12.5l4 4L18.5 7.5'/%3E%3C/svg%3E") center / 64% no-repeat,
+    linear-gradient(135deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
   border-color: transparent;
+  box-shadow: 0 0 18px var(--gold-glow);
 }
 
-/* Delete button */
+/* ---------- Delete button ---------- */
 
 .todo-list .destroy {
   align-items: center;
   background: transparent;
-  border: 0;
-  border-radius: 10px;
-  color: var(--faint);
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--muted);
   cursor: pointer;
   display: inline-flex;
   flex: none;
@@ -254,13 +394,15 @@ input {
   justify-content: center;
   opacity: 0;
   padding: 0;
-  transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease, transform 160ms ease;
+  transform: scale(0.85);
+  transition: background-color 400ms var(--ease), border-color 400ms var(--ease), color 400ms var(--ease), opacity 400ms var(--ease), transform 400ms var(--ease);
   width: 34px;
 }
 
 .todo-list .destroy::after {
   content: '\00d7';
-  font-size: 1.7rem;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
   font-weight: 300;
   line-height: 1;
   margin-top: -2px;
@@ -269,73 +411,83 @@ input {
 .todo-list .view:hover .destroy,
 .todo-list .destroy:focus-visible {
   opacity: 1;
+  transform: scale(1);
 }
 
 .todo-list .destroy:hover {
   background: var(--danger-soft);
+  border-color: rgba(224, 138, 133, 0.3);
   color: var(--danger);
-  transform: scale(1.06);
+  transform: rotate(90deg);
 }
 
 .todo-list .destroy:focus-visible {
-  outline: 3px solid #a52c3555;
-  outline-offset: 1px;
+  outline: 1px solid var(--danger);
+  outline-offset: 2px;
 }
 
 @media (hover: none) {
   .todo-list .destroy {
     opacity: 1;
+    transform: none;
   }
 }
 
 /* ---------- Auth check states (ProtectedRoute) ---------- */
 
 #root > p {
-  animation: soft-pulse 1.6s ease-in-out infinite;
-  color: var(--accent);
+  animation: soft-pulse 2.2s ease-in-out infinite;
+  color: var(--gold-light);
   direction: rtl;
-  font-weight: 500;
-  margin: 32vh 0 0;
+  font-family: var(--font-serif-he);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  margin: 36vh 0 0;
   text-align: center;
 }
 
 main:not(.auth-page) {
-  animation: card-enter 450ms var(--ease) both;
+  animation: card-enter 800ms var(--ease) both;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   background: var(--surface);
-  border: 1px solid #fff;
-  border-radius: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
   box-shadow: var(--shadow-lg);
   direction: rtl;
   margin: 24vh auto 0;
-  max-width: 420px;
-  padding: 36px 32px;
+  max-width: 440px;
+  padding: 40px 34px;
   text-align: center;
-  width: calc(100% - 36px);
+  width: calc(100% - 40px);
 }
 
 main:not(.auth-page) p {
-  color: var(--muted);
-  line-height: 1.6;
-  margin: 0 0 20px;
+  color: var(--text-soft);
+  font-family: var(--font-serif-he);
+  line-height: 1.7;
+  margin: 0 0 24px;
 }
 
 main:not(.auth-page) button {
-  background: linear-gradient(110deg, var(--accent), var(--accent-2));
+  background: linear-gradient(120deg, var(--gold-deep), var(--gold) 45%, var(--gold-light) 100%);
+  background-size: 200% 100%;
   border: 0;
-  border-radius: 11px;
-  box-shadow: 0 7px 16px #117d7030;
-  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(201, 169, 110, 0.22);
+  color: #14120e;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 700;
-  min-height: 46px;
-  padding: 10px 28px;
-  transition: box-shadow 160ms ease, transform 160ms ease, filter 160ms ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  min-height: 48px;
+  padding: 10px 34px;
+  transition: background-position 700ms var(--ease), box-shadow 500ms var(--ease), transform 400ms var(--ease);
 }
 
 main:not(.auth-page) button:hover {
-  box-shadow: 0 10px 20px #117d703b;
-  filter: brightness(1.04);
+  background-position: 100% 0;
+  box-shadow: 0 14px 36px rgba(201, 169, 110, 0.32);
   transform: translateY(-1px);
 }
 
@@ -343,8 +495,34 @@ main:not(.auth-page) button:hover {
 
 @keyframes card-enter {
   from {
+    filter: blur(6px);
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(22px);
+  }
+
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes title-enter {
+  from {
+    letter-spacing: 0.3em;
+    opacity: 0;
+  }
+
+  to {
+    letter-spacing: 0.08em;
+    opacity: 1;
+  }
+}
+
+@keyframes row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
 
   to {
@@ -353,55 +531,70 @@ main:not(.auth-page) button:hover {
   }
 }
 
-@keyframes row-enter {
+@keyframes line-draw {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.985);
+    transform: scaleX(0);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scaleX(1);
   }
 }
 
+@keyframes sheen {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes shimmer {
+  from { background-position: 0% 50%; }
+  to { background-position: 250% 50%; }
+}
+
 @keyframes toggle-pop {
-  0% { transform: scale(0.85); }
-  60% { transform: scale(1.12); }
+  0% { transform: scale(0.8); }
+  55% { transform: scale(1.12); }
   100% { transform: scale(1); }
 }
 
 @keyframes soft-pulse {
-  0%, 100% { opacity: 0.55; }
+  0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
+}
+
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-60px, 50px); }
+}
+
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(70px, -40px); }
 }
 
 @media (max-width: 520px) {
   .todoapp {
-    padding: 28px 14px 48px;
+    padding: 32px 16px 56px;
   }
 
   .todoapp .header {
-    border-radius: 20px;
-    padding: 26px 20px 24px;
+    border-radius: 22px;
+    padding: 52px 22px 28px;
+  }
+
+  .todo-list .view {
+    padding: 12px 16px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .todoapp .header,
-  .todoapp .main,
-  .todo-list li,
-  .todo-list .toggle:checked,
-  main:not(.auth-page),
-  #root > p {
-    animation: none;
-  }
-
-  .todo-list .view,
-  .todo-list label,
-  .todo-list .destroy,
-  .todoapp .header > button,
-  .todoapp .new-todo {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
   }
 }

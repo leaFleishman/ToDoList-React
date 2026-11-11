@@ -22,7 +22,7 @@ function TodoPage() {
   }
 
   async function updateCompleted(todo, isComplete) {
-    await service.setCompleted(todo.id, isComplete);
+    await service.setCompleted(todo.id, isComplete, todo.name);
     await getTodos();
   }
 
