@@ -114,6 +114,10 @@ function AuthPage({ mode }) {
       await service.login(username, password);
       navigate('/tasks', { replace: true });
     } catch (requestError) {
+      if (!requestError.response) {
+        setError('אין חיבור לשרת. ודאו שה-API (TodoApi) פועל ונסו שוב.');
+        return;
+      }
       setError(requestError.response?.data?.message || (
         requestError.response?.status === 401
           ? 'שם המשתמש או הסיסמה שגויים.'

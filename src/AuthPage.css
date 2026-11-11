@@ -168,21 +168,19 @@
   width: 18px;
 }
 
-/* the V is drawn a little bigger than the box, like by hand */
+/* the V fills the box exactly and is centered inside it */
 .auth-board-check svg {
   color: var(--mark);
-  height: 30px;
-  left: -4px;
-  overflow: visible;
+  height: 100%;
+  inset: 0;
   position: absolute;
-  top: -10px;
-  width: 30px;
+  width: 100%;
 }
 
 .auth-board-check path {
   stroke-dasharray: 22;
   stroke-dashoffset: 22;
-  stroke-width: 2.8;
+  stroke-width: 3.4;
   transition: stroke-dashoffset 500ms 100ms var(--ease);
 }
 
